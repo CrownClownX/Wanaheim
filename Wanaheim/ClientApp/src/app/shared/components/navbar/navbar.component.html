@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" routerLink="/">Wanaheim</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home">Home</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link" routerLink="/items">Items</a>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <div *ngIf="isLoggedIn" (click)="logout()"><button>Logout</button></div>
+      <div *ngIf="!isLoggedIn"> <a routerLink="/auth/login"> Login </a> </div>
+    </div>
+  </div>
+</nav>

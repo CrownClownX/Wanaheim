@@ -1,0 +1,74 @@
+
+<div class="body-content" style="text-align: center">
+  <div style="display: inline-block">
+
+    <div style="text-align: left">
+      <h3>Welcome to Wanaheim!</h3>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSignUp()">
+
+      <div class="form-group" style="text-align: left">
+        <label>Name</label>
+        <input type="text" id="name" class="form-control" formControlName="name"/>
+
+        <div *ngIf="controls.name.hasError('required') && submited" class="alert alert-danger">
+          To pole nie może być puste
+        </div>
+      </div>
+
+      <div class="form-group" style="text-align: left">
+        <label>Adres email</label>
+        <input type="text" id="email" class="form-control" formControlName="email"/>
+
+        <div *ngIf="controls.email.hasError('required') && submited" class="alert alert-danger">
+          To pole nie może być puste
+        </div>
+
+        <div *ngIf="controls.email.hasError('email') && submited" class="alert alert-danger">
+          Nieprawidłowy format e-mail
+        </div>
+
+        <!--Change condition to one reacting only when emailExsist is true-->
+        <div *ngIf="controls.email.hasError('emailExsist') && submited" class="alert alert-danger">
+            Podany adres email już istnieje
+        </div>
+      </div>
+
+      <div class="form-group" style="text-align: left">
+        <label>Hasło</label>
+        <input id="password" type="password" class="form-control" formControlName="password"/>
+
+        <div *ngIf="controls.password.hasError('required') && submited" class="alert alert-danger">
+          To pole nie może być puste
+        </div>
+
+        <div *ngIf="controls.password.hasError('minlength') && submited" class="alert alert-danger">
+          Hasło musi mieć minimum 8 znaków
+        </div>
+      </div>
+
+      <div class="form-group" style="text-align: left">
+        <input id="agreement" type="checkbox" formControlName="agreement"/> 
+
+        Akceptuje regulamin serwisu <a routerLink="#">Wanaheim</a>
+        <br>Informujemy, że przetwarzamy <a routerLink="#">Twoje dane osobowe</a>
+
+        <div *ngIf="controls.agreement.invalid && submited" class="alert alert-danger">
+          Konieczne jest zaznaczenie tego pola
+        </div>
+      </div>
+
+      <div class="center-btn" style="text-align: left; padding-bottom: 15px">
+        <button type="submit" class="btn btn-primary">
+          Dalej
+        </button>
+      </div>
+
+    </form>
+
+    <div style="text-align: left">
+      <a routerLink="login">Zaloguje się</a>
+    </div>
+  </div>
+</div>  

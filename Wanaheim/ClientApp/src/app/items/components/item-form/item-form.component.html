@@ -1,0 +1,51 @@
+<h1>NEW ITEM</h1>
+
+{{item | json}}
+
+<form #f="ngForm" (ngSubmit)="submit()"  novalidate >
+    <!--NAME-->
+    <div class="form-group">
+        <label for="name">Name : </label>
+        <input type="text" id="name" class="form-control" name="name" [(ngModel)]="item.name" required #name="ngModel"/>
+    </div>
+
+    <!--DESCRIPTION-->
+    <div class="form-group">
+        <label for="description">Descryption : </label>
+        <textarea rows="4" id="description" class="form-control" name="description" [(ngModel)]="item.description" required #description="ngModel"></textarea>
+    </div>
+
+
+    <!--PRICE-->
+    <div class="form-group">
+        <label for="price">Price : </label>
+        <input type="number" id="price" class="form-control" name="price" [(ngModel)]="item.price" required #price="ngModel"/>
+    </div>
+
+    <!--QUANTITY-->
+    <div class="form-group">
+        <label for="name">Quantity : </label>
+        <input type="number" id="name" class="form-control" name="quantity" [(ngModel)]="item.quantity" required #quantity="ngModel"/>
+    </div>
+
+    <!--CATEGORY-->
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category" name="categoryId" (change)="onCategoryChange()" [(ngModel)]="item.categoryId" required #category="ngModel">
+            <option value=""></option>
+            <option *ngFor="let c of categories" value="{{ c.id }}">{{c.name}}</option>
+        </select>
+    </div>
+
+    <!--SUBCATEGORY-->
+    <div class="form-group">
+        <label for="subcategory">Subcategory</label>
+        <select id="subcategory" class="form-control" name="subcategoryId" [(ngModel)]="item.subcategoryId" required #subcategory="ngModel">
+            <option value=""></option>
+            <option *ngFor="let s of subcategories" value="{{ s.id }}">{{s.name}}</option>
+        </select>
+    </div>
+
+    <!--BUTTONS-->
+    <input type="submit" class="btn btn-primary" value="Save"  />
+</form>

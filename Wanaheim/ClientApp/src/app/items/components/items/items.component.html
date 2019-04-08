@@ -1,0 +1,34 @@
+<select class="form-control" (change)="onCategoryChange()" [(ngModel)]="query.categoryId">
+  <option value="0">All</option>
+  <option *ngFor="let category of categories" value="{{category.id}}">
+      {{category.name}}
+  </option>
+</select>
+
+<table class='table'>
+  <tr>
+      <th *ngFor="let column of columns">
+          <div *ngIf="column.isSortable" (click)="sortBy(column.key)">
+              {{column.title}}
+              <i *ngIf="query.sortBy == column.key"
+                 class="fa"
+                 [class.fa-sort-asc]="query.ifAscending"
+                 [class.fa-sort-desc]="!query.ifAscending"></i>
+          </div>
+          <div *ngIf="!column.isSortable">
+              {{column.title}}
+          </div>
+      </th>
+  </tr>
+  <tr *ngFor="let item of items">
+      <td>{{item.name}}</td>
+      <td>{{item.price}}</td>
+      <td>{{item.quantity}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.subcategory.name}}</td>
+      <td><a [routerLink]="['/items/' + item.id]">See more</a></td>
+  </tr>
+</table>
+
+
+<a href="/items/new"><input type="button" class="btn btn-primary" value="NEW ITEM" /></a>

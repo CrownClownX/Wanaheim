@@ -1,0 +1,49 @@
+<div class="body-content" style="text-align: center">
+  <div style="display: inline-block">
+
+    <div style="text-align: left">
+        <h3>Zaloguj się</h3>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onLogin()">
+
+      <div *ngIf="form.errors" class="alert alert-danger" style="text-align: left">
+        Podany login lub hasło są nieprawidłowe.
+      </div>
+
+      <div style="text-align: left" class="form-group">
+        <label>Adres e-mail</label>
+        <input id="email" class="form-control" type="text" formControlName="email"/>
+        <div *ngIf="controls.email.invalid && submited" class="alert alert-danger">
+          To pole nie może być puste
+        </div>
+      </div>
+
+      <div style="text-align: left" class="form-group">
+        <label>Hasło</label>
+        <input id="password" class="form-control" type="password" formControlName="password"/>
+        <div *ngIf="controls.password.invalid && submited" class="alert alert-danger">
+          To pole nie może być puste
+        </div>
+      </div>
+
+      <div style="text-align: left; padding-bottom: 15px" >
+        <p><a href="#">Zapomniałem hasła</a></p>
+
+        <button class="btn btn-primary" type="submit">
+          Zaloguj się
+        </button>
+      </div>
+
+    </form>
+
+    <div style="text-align: left">
+      <p>
+        Nie masz jeszcze konta? <a routerLink="/auth/signup">Założ darmowe konto</a> <br/>
+        Logując się akceptujesz <a routerLink="#">regulamin.</a>
+      </p>
+    </div>
+
+  </div>
+</div>  
+
