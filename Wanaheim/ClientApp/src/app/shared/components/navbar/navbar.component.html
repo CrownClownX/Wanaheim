@@ -11,7 +11,7 @@
       </li>
     </ul>
     <div class="my-2 my-lg-0">
-      <div *ngIf="isLoggedIn" (click)="logout()"><button>Logout</button></div>
+      <div *ngIf="isLoggedIn" (click)="logout()"><button class="btn btn-link">Logout</button></div>
       <div *ngIf="!isLoggedIn"> <a routerLink="/auth/login"> Login </a> </div>
     </div>
   </div>
