@@ -1,6 +1,6 @@
 # Wanaheim
 One of the nine realms needs you! Fight monsters, buy items (to keep economy flowing) and grow strong as a hero of this story!
-Wanaheim is a browser game with typical RPG mechanic. You will be growing your character by fighting at arena and buying new items.
+Wanaheim is a browser game with typical RPG mechanic. You will be growing your character by fighting at the arena and buying new items.
 
 ## Table of contents
 * [Status](#status)
@@ -9,7 +9,7 @@ Wanaheim is a browser game with typical RPG mechanic. You will be growing your c
 * [Features](#features)
 
 ## Status
-Project is still in progress. To find out what features are completed go to [Features](#features) section.
+The project is still in progress. To find out what features are completed go to [Features](#features) section.
 
 
 ## Technologies
@@ -20,13 +20,14 @@ Project is still in progress. To find out what features are completed go to [Fea
 
 
 ## Setup
-Describe how to install / setup your local environement / add link to demo version.
+To make application working, go to ClientApp through command prompt and type "npm install" to restore all packages.
 
 
 ## Features
-* Item Shop - basic structer and all CRUD operations are implemented. Only thing that is not ready yet is NgRx state of this component. Item shop provides list of items to buy for normal user and tools to manage items for user with admin's right.  
-* Authentication - application is using JWT token. Backend is generating tokens and sendig them to angular application. Then, token is stored as a state and in local storage. 
+* Item Shop - basic structure and all CRUD operations are implemented. The only thing that is not ready yet is NgRx state of this component. Item shop provides the list of items to buy for a normal user and tools to manage items for a user with admin's right.  
+* Authentication - application is using JWT token. Backend is generating tokens and sending them to angular application. Then, a token is stored as a state and in local storage. 
 
 To-do list:
 * Arena 
 * Player panel
+* Different views basing on player's role

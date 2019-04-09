@@ -14,7 +14,6 @@ export class NavbarComponent implements OnInit {
 
   subscription: Subscription = new Subscription();
   isLoggedIn: boolean;
-  isLoggedOut: boolean;
 
   ngOnInit() {
     this.subscription.add(
