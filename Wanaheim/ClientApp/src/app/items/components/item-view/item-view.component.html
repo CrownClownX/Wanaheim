@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs">
-  <li class="nav-item active">
-      <a data-toggle="tab" class="nav-link" href="#item-data">Item</a>
+  <li class="nav-item">
+      <a data-toggle="tab" class="nav-link active" href="#item-data">Item</a>
   </li>
   <li class="nav-item">
       <a show-tab data-toggle="tab" class="nav-link" href="#photo" target="_self">Photo</a>
@@ -8,7 +8,7 @@
 </ul>
 
 <div class="tab-content">
-  <div id="item-data" class="tab-pane fade in active" *ngIf="item">
+  <div id="item-data" class="tab-pane fade show active" *ngIf="item">
       <h3>{{item.name}}</h3>
       <p>{{item.description}}</p>
       
@@ -21,13 +21,5 @@
   <div id="photo" class="tab-pane fade">
       <input type="file" (change)="upload()" #fileInput/>
       <img *ngFor="let photo of photos" src="/uploads/{{photo.fileName}}" class="img-thumbnail" />
-      
-      <div class="progress" *ngIf="progress && progress.percentage < 100">
-          <div class="progress-bar" [style.width]="progress.percentage + '%'">
-              <span class="sr-only">
-                  {{progress.percentage}}% Complete
-              </span>
-          </div>
-      </div>
   </div>
 </div>

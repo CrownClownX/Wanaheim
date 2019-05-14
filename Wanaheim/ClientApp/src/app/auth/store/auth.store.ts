@@ -1,7 +1,7 @@
 import { User } from "../../models/user.model";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Store, MemoizedSelector, createFeatureSelector, createSelector } from "@ngrx/store";
+import { Store, MemoizedSelector, createFeatureSelector, createSelector, INIT } from "@ngrx/store";
 import { Login, SignUp, Logout } from "./auth.actions";
 
 export const featureName = 'auth';
@@ -32,11 +32,8 @@ export class AuthStore {
     );
   }
 
-  private getSelector(key: keyof any): MemoizedSelector<AuthState, any> {
-    return createSelector(
-      this.getFeatureSelector(),
-      (state: AuthState) => state[key]
-    );
+  dispatchInitAction(): void {
+    this.store.dispatch({type:INIT});
   }
 
   dispatchLoginAction(payload: any): void {

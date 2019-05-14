@@ -1,3 +1,4 @@
+import { QueryItems } from './../../../models/queryItems';
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from '../../../services/items.service';
 
@@ -10,9 +11,7 @@ export class ItemsComponent implements OnInit {
 
   items: any[];
   categories: any[];
-  query: any = {
-      pageSize: 3
-  };
+  query: QueryItems;
   columns = [
       { title: 'Name', key: 'name', isSortable: true},
       { title: 'Price', key: 'price', isSortable: true},
@@ -23,14 +22,15 @@ export class ItemsComponent implements OnInit {
 
   /** items ctor */
   constructor(private service: ItemsService) {
-
+    this.query = new QueryItems();
+    this.query.pageSize = 2;
   }
 
   ngOnInit() {
-      this.populateItems(); 
+    this.populateItems(); 
 
-      this.service.getCategories()
-          .subscribe(categories => this.categories = categories);
+    this.service.getCategories()
+      .subscribe(categories => this.categories = categories);
   }
 
   onCategoryChange() {

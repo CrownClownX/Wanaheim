@@ -1,0 +1,19 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+      <a data-toggle="tab" class="nav-link active" href="#information">Information</a>
+  </li>
+  <li class="nav-item">
+      <a show-tab data-toggle="tab" class="nav-link" href="#equipment" target="_self">Equipment</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  {{userId}}
+  <div id="information" class="tab-pane fade show active">
+    <app-player-info></app-player-info> 
+  </div>
+
+  <div id="equipment" class="tab-pane fade">
+    <app-equipment></app-equipment> 
+  </div>
+</div>

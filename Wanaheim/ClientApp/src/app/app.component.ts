@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthStore } from './auth/store/auth.store';
 
 
 @Component({
@@ -10,10 +11,11 @@ export class AppComponent implements OnInit {
   
   title = 'ClientApp';
 
-  constructor(){
+  constructor(private authStore:AuthStore){
   }
 
   ngOnInit(): void {
+    this.authStore.dispatchInitAction();
   }
 
 }

@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { PhotoService } from './../services/photo.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ const routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    FormsModule
+    FormsModule, 
+    SharedModule
   ], 
   providers: [
     PhotoService

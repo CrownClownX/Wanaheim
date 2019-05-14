@@ -17,8 +17,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Wanaheim.Helpers.Interfaces;
 using Wanaheim.Helpers;
+using Wanaheim.Services.Interfaces;
+using Wanaheim.Services;
+using Wanaheim.Services.Settings;
+using Wanaheim.Core.Domain.Logic.Concret;
+using Wanaheim.Core.Domain.Logic.Interface;
 
 namespace Wanaheim
 {
@@ -47,7 +51,7 @@ namespace Wanaheim
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-            services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<IJwtFactoryService, JwtFactoryService>();
 
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
@@ -97,6 +101,10 @@ namespace Wanaheim
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IStorageService, StorageService>();
+            services.AddScoped<Services.Interfaces.IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IItemLogic, ItemLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

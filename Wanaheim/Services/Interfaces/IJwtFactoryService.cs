@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Wanaheim.Helpers.Interfaces
+namespace Wanaheim.Services
 {
-    public interface IJwtFactory
+    public interface IJwtFactoryService
     {
         Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity);
         ClaimsIdentity GenerateClaimsIdentity(string userName, string id);

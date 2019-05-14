@@ -7,15 +7,15 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Wanaheim.Core;
-using Wanaheim.Helpers.Interfaces;
+using Wanaheim.Services.Settings;
 
-namespace Wanaheim.Helpers
+namespace Wanaheim.Services
 {
-    public class JwtFactory : IJwtFactory
+    public class JwtFactoryService : IJwtFactoryService
     {
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public JwtFactory(IOptions<JwtIssuerOptions> jwtOptions)
+        public JwtFactoryService(IOptions<JwtIssuerOptions> jwtOptions)
         {
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
@@ -24,7 +24,7 @@ namespace Wanaheim.Helpers
         public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
         {
             var claims = new[]
-         {
+            {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),

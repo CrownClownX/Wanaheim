@@ -13,6 +13,7 @@ using Wanaheim.Core;
 using Wanaheim.Core.Domain;
 using Wanaheim.Core.Repository;
 using Wanaheim.Mapping.Dtos;
+using Wanaheim.Services;
 
 namespace FloatingMarket.Controllers
 {
@@ -22,18 +23,17 @@ namespace FloatingMarket.Controllers
         private IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IItemRepository _repository;
-        private IHostingEnvironment _host;
-        private readonly PhotoSettings _settings;
         private readonly IPhotoRepository _photoRepository;
+        private readonly IPhotoService _photoService;
 
-        public PhotosController(IHostingEnvironment host, IMapper mapper, IItemRepository repository, IUnitOfWork unitOfWork, IOptionsSnapshot<PhotoSettings> options, IPhotoRepository photoRepository)
+        public PhotosController(IMapper mapper, IItemRepository repository, IUnitOfWork unitOfWork, 
+            IPhotoRepository photoRepository, IPhotoService photoService)
         {
-            _host = host;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _photoRepository = photoRepository;
+            _photoService = photoService;
             _repository = repository;
-            _settings = options.Value;
         }
 
         public async Task<IEnumerable<PhotoDto>> GetPhotos(int itemId)
@@ -52,27 +52,12 @@ namespace FloatingMarket.Controllers
                 return NotFound();
             if (file == null)
                 return BadRequest("No file");
-            if (file.Length == 0)
+
+            var photo = await _photoService.UploadPhoto(file);
+
+            if (photo == null) //Add PhotoValidationState bind to string with error message 
                 return BadRequest("Empty file");
-            if (file.Length > _settings.MaxBytes)
-                return BadRequest("File is to large");
-            if (!_settings.IsSupported(file.FileName))
-                return BadRequest("Inavlid type");
 
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
-
-            if (!Directory.Exists(uploadsFolderPath))
-                Directory.CreateDirectory(uploadsFolderPath);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);
-
-            using(var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var photo = new Photo() { FileName = fileName };
             item.Photos.Add(photo);
             await _unitOfWork.Complete();
 

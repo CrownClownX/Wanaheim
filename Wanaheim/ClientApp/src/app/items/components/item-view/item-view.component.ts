@@ -44,14 +44,14 @@ export class ItemViewComponent implements OnInit {
     }
 
     onClickRedirection() {
-        this.router.navigateByUrl('/items/new/' + this.item.id);
+        this.router.navigate(['/items/new/' + this.item.id]);
     }
 
     onClickDelete() {
         if (confirm("Are you sure?")) {
             this.service.delete(this.item.id)
                 .subscribe(x => {
-                    this.router.navigateByUrl('/home');
+                    this.router.navigate(['/home']);
                 });
         }
     }
@@ -66,7 +66,7 @@ export class ItemViewComponent implements OnInit {
                 this.photos.push(photo)
             },
             err => {
-                console.log('error');
+                console.log(err);
             }
         );
     }

@@ -14,7 +14,7 @@ function loginReducer(state: AuthState = initialAuthState, action): AuthState {
     case AuthActionTypes.LOGIN_SUCCESS:
       return {
         loginFailed: false,
-        user: action.payload.user
+        user: action.payload
       };
 
     case AuthActionTypes.LOGIN_FAILED:

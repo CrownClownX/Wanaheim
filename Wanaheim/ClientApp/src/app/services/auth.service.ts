@@ -14,6 +14,7 @@ export class AuthService {
 
   getToken(): string {
     const loggedUser = JSON.parse(localStorage.getItem('user'));
+    const json = localStorage.getItem('user');
 
     if(loggedUser){
       return loggedUser.token;

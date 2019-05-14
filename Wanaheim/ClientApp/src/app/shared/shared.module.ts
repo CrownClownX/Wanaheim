@@ -5,15 +5,17 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, PaginationComponent],
   imports: [
     CommonModule,
     RouterModule
   ], 
   exports: [
-    NavbarComponent
+    NavbarComponent, 
+    PaginationComponent
   ],
   providers: [
     AuthStore,

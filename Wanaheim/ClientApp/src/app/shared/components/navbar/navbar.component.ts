@@ -6,8 +6,7 @@ import { Logout } from '../../../auth/store/auth.actions';
 
 @Component({
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   constructor(private authStore:AuthStore) { }

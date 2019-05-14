@@ -30,5 +30,6 @@
   </tr>
 </table>
 
+<app-pagination [total-items]="query.itemsCount" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></app-pagination>
 
-<a href="/items/new"><input type="button" class="btn btn-primary" value="NEW ITEM" /></a>
+<a routerLink="/items/new"><input type="button" class="btn btn-primary" value="NEW ITEM" /></a>

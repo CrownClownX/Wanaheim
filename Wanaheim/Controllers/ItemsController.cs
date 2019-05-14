@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wanaheim.Core;
 using Wanaheim.Core.Domain;
+using Wanaheim.Core.Domain.Logic.Interface;
 using Wanaheim.Core.Repository;
 using Wanaheim.Mapping.Dtos;
 
@@ -18,37 +19,30 @@ namespace FloatingMarket.Controllers
     [Route("/api/items")]
     public class ItemsController : Controller
     {
-        private IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IItemRepository _repository;
+        private readonly IItemLogic _itemLogic;
 
-        public ItemsController(IMapper mapper, IItemRepository repository, IUnitOfWork unitOfWork)
+        public ItemsController(IItemLogic itemLogic)
         {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
-            _repository = repository;
+            _itemLogic = itemLogic;
         }
 
         [HttpGet]
         public async Task<QueryResultDto<ItemDtoReadOnly>> GetItems(ItemsQueryDto queryDto)
         {
-            var query = _mapper.Map<ItemsQueryDto, ItemsQuery>(queryDto);
-            var model = await _repository.GetFiltrated(query);
-
-            return _mapper.Map<QueryResult<Item>, QueryResultDto<ItemDtoReadOnly>>(model);
+            return await _itemLogic.Get(queryDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItem(int id)
         {
-            var itemInDb = await _repository.Get(i => i.Id == id);
+            var item = await _itemLogic.Get(id);
 
-            if (itemInDb == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<Item, ItemDtoReadOnly>(itemInDb));
+            return Ok(item);
         }
 
         [HttpPost]
@@ -59,15 +53,9 @@ namespace FloatingMarket.Controllers
                 return BadRequest(ModelState);
             }
 
-            var itemInDb = _mapper.Map<ItemDto, Item>(item);
-            itemInDb.CreationDate = DateTime.Now;
+            var model = await _itemLogic.Add(item);
 
-            _repository.Add(itemInDb);
-            await _unitOfWork.Complete();
-
-            var model = await _repository.Get(i => i.Id == itemInDb.Id);
-
-            return Ok(_mapper.Map<Item, ItemDtoReadOnly>(model));
+            return Ok(model);
         }
 
         [HttpPut("{id}")]
@@ -78,35 +66,25 @@ namespace FloatingMarket.Controllers
                 return BadRequest(ModelState);
             }
 
-            var itemInDb = await _repository.Get(i => i.Id == id);
+            var itemInDb = await _itemLogic.Update(id, item);
 
             if (itemInDb == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(item, itemInDb);
-            itemInDb.CreationDate = DateTime.Now;
-
-            await _unitOfWork.Complete();
-
-            itemInDb = await _repository.Get(i => i.Id == id);
-
-            return Ok(_mapper.Map<Item, ItemDtoReadOnly>(itemInDb));
+            return Ok(item);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            var itemInDb = await _repository.Get(i => i.Id == id);
+            var ifDeleted = await _itemLogic.Delete(id);
 
-            if (itemInDb == null)
+            if (!ifDeleted)
             {
                 return NotFound();
             }
-
-            _repository.Remove(itemInDb);
-            await _unitOfWork.Complete();
 
             return Ok();
         }

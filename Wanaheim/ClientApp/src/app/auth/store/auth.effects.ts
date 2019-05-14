@@ -1,3 +1,4 @@
+import { LoggedUser } from './../../models/loggedUser';
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
 import { Login, AuthActionTypes, Logout, LoginSuccess, LoginFailed, SignUp, SignUpSuccess, SignUpFailed } from './auth.actions';
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { defer, of, Observable } from 'rxjs';
 import { INIT, Action } from '@ngrx/store';
-import { LoggedUser } from '../../models/loggedUser';
+
 
 
 @Injectable()
@@ -35,8 +36,10 @@ export class AuthEffects  {
   LoginSuccess$: Observable<any> = this.actions$.pipe(
     ofType<LoginSuccess>(AuthActionTypes.LOGIN_SUCCESS),
     tap((user) => {
-      localStorage.setItem('user', JSON.stringify(user.payload));
-      this.router.navigateByUrl('/');
+      if(!localStorage.getItem('user')){
+        localStorage.setItem('user', JSON.stringify(user.payload));
+      }
+      this.router.navigate(['/']);
     })
   );
 
@@ -45,7 +48,7 @@ export class AuthEffects  {
     ofType<Logout>(AuthActionTypes.LOGOUT),
     tap((user) => {
       localStorage.removeItem('user');
-      this.router.navigateByUrl('/auth/login');
+      this.router.navigate(['/auth/login']);
     })
   );
 
@@ -68,14 +71,13 @@ export class AuthEffects  {
       })
   );
 
-  @Effect()
+  @Effect() 
   init$ : Observable<any> = this.actions$.pipe(
     ofType(INIT),
     map(() => {
-      console.log("sdd");
-      const user: any = localStorage.getItem('user');
+      const user: any = JSON.parse(localStorage.getItem('user'));
       if(user){
-        return new LoginSuccess(user);
+        return new LoginSuccess(user.user);
       }
 
       return new Logout();
